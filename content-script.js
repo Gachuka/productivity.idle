@@ -2,12 +2,16 @@ console.log('hey')
 const baseUrl = "http://localhost:7878"
 let typrddtring = ''
 
-const res = await fetch(baseUrl, {        
-  method: "GET",        
-  mode: "cors",      
-});      
-const txt = await res.text();
-console.log(txt)
+const fetchData = async (event) => {
+  console.log(event)
+  const res = await fetch(baseUrl, {        
+    method: "GET",        
+    mode: "cors",      
+  });      
+  const txt = await res.text();
+  console.log(txt)
+  localStorage.setItem('typed_string', JSON.parse(txt))
+}
 
 const downHandler = async (event) => {
   localStorage.setItem('key', event.key)
@@ -31,3 +35,4 @@ const downHandler = async (event) => {
 }
 
 window.addEventListener("keydown", downHandler)
+fetchData()
