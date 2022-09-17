@@ -11,6 +11,7 @@ const fetchData = async (event) => {
   const txt = await res.text();
   console.log(txt)
   localStorage.setItem('typed_string', JSON.parse(txt))
+  sessionStorage.setItem('typed_string', JSON.parse(txt))
 }
 
 const downHandler = async (event) => {
