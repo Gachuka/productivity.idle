@@ -1,0 +1,28 @@
+{
+  "name": "Productivity.Idle",
+  "description": "Productivity tracker gamified",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["http://localhost:*/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-script.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "192": "/static/media/logo192.png",
+      "512": "/static/media/logo512.png"
+    }
+  },
+  "icons": {
+    "192": "/static/media/logo192.png",
+    "512": "/static/media/logo512.png"
+  }
+}
