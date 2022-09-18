@@ -8,10 +8,10 @@ let dataLoaded = false
 const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
 
 const fetchData = async (event) => {
-  const res = await fetch(baseUrl, {        
-    method: "GET",        
-    mode: "cors",      
-  });      
+  const res = await fetch(baseUrl, {
+    method: "GET",
+    mode: "cors",
+  });
   const txt = await res.text();
   console.log(JSON.parse(txt));
   localStorage.setItem('typed_string', JSON.parse(txt).text_typed);
@@ -21,10 +21,10 @@ const fetchData = async (event) => {
   dataLoaded = true
 }
 
-const fetchPUT = async (typedString) => {
+const fetchPUT = async (typedString, characterCount) => {
   const putBody = JSON.stringify({ 
     text_typed: typedString,
-    character_count: characterCount
+    character_count: Number(characterCount)
   });
   const res = await fetch(baseUrl, {        
     method: "PUT",        
@@ -59,9 +59,9 @@ const downHandler = (event) => {
 }
 
 const savePeriod = () => {
-  const newTypedString = typedString.slice(-110);
-  localStorage.setItem('typed_string', newTypedString);
-  fetchPUT(newTypedString);
+  const textTypedBody = localStorage.getItem('typed_string');
+  const characterCountBody = localStorage.getItem('character_count');
+  fetchPUT(textTypedBody, characterCountBody);
   console.log('Game Saved');
   setTimeout(() => {savePeriod()}, timerLength);
 }
