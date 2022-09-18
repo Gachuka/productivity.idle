@@ -50,8 +50,10 @@ const downHandler = (event) => {
   };
 
   typedString = typedString+event.key;
+  characterCount += 1
   localStorage.setItem('key', event.key);
   localStorage.setItem('typed_string', typedString.slice(-110));
+  localStorage.setItem('character_count', characterCount);
   console.log(event.key);
   const key = event.key;
 }
