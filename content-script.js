@@ -79,7 +79,7 @@ const downHandler = (event) => {
 
 const savePeriod = () => {
 
-  // LOG CURRENT SAVE COUNTER
+  // LOG CURRENT SAVE COUNTER AND RESET
   console.log(characterCountThisSave)
   characterCountThisSave = 0
   localStorage.setItem('character_count_this_save', characterCountThisSave);
