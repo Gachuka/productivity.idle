@@ -1,5 +1,6 @@
 console.log('hey')
 const baseUrl = "http://localhost:7878"
+const timerLength = 30000
 let typedString = ''
 let characterCount = 0
 let dataLoaded = false
@@ -60,10 +61,10 @@ const savePeriod = () => {
   localStorage.setItem('typed_string', newTypedString);
   fetchPUT(newTypedString);
   console.log('Game Saved');
-  setTimeout(() => {savePeriod()}, 30000);
+  setTimeout(() => {savePeriod()}, timerLength);
 }
 
 window.addEventListener("keydown", downHandler);
 fetchData();
 
-setTimeout(savePeriod, 30000);
+setTimeout(savePeriod, timerLength);
