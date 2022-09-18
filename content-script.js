@@ -1,21 +1,25 @@
-console.log('hey')
+console.log('Content Script Running')
 const baseUrl = "http://localhost:7878"
+const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
 const timerLength = 30000
+
 let typedString = ''
 let characterCount = 0
 let characterCountThisSave = 0
 let dataLoaded = false
 
-const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
-
 // FETCH GET FUNCTION
 const fetchData = async (event) => {
+
+  // GET REQUEST
   const res = await fetch(baseUrl, {
     method: "GET",
     mode: "cors",
   });
   const txt = await res.text();
   console.log(JSON.parse(txt));
+
+  // STORE DATA TO LOCALSTORAGE
   localStorage.setItem('typed_string', JSON.parse(txt).text_typed);
   localStorage.setItem('character_count', JSON.parse(txt).character_count);
   typedString = JSON.parse(txt).text_typed;
@@ -25,10 +29,14 @@ const fetchData = async (event) => {
 
 // FETCH PUT FUNCTION
 const fetchPUT = async (typedString, characterCount) => {
+
+  // CREATE PUT BODY
   const putBody = JSON.stringify({ 
     text_typed: typedString,
     character_count: Number(characterCount)
   });
+
+  // PUT REQUEST
   const res = await fetch(baseUrl, {        
     method: "PUT",        
     mode: "cors",
@@ -76,10 +84,13 @@ const savePeriod = () => {
   characterCountThisSave = 0
   localStorage.setItem('character_count_this_save', characterCountThisSave);
 
+  // GRAB DATA AND FETCH PUT REQUEST
   const textTypedBody = localStorage.getItem('typed_string');
   const characterCountBody = localStorage.getItem('character_count');
   fetchPUT(textTypedBody, characterCountBody);
   console.log('Game Saved');
+
+  // RESET SAVE TIMER
   setTimeout(() => {savePeriod()}, timerLength);
 }
 
