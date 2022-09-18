@@ -83,7 +83,10 @@ const savePeriod = () => {
   setTimeout(() => {savePeriod()}, timerLength);
 }
 
+// ON MOUNT
+// ADD EVENTLISTENER FOR KEY PRESS
 window.addEventListener("keydown", downHandler);
-fetchData();
 
+// EXECUTE INITIAL FUNCTIONALITY
+fetchData();
 setTimeout(savePeriod, timerLength);
