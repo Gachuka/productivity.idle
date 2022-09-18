@@ -4,12 +4,13 @@ const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Ta
 const timerLength = 30000
 
 let typedString = ''
+let typedStringThisSave = ''
 let characterCount = 0
 let characterCountThisSave = 0
 let dataLoaded = false
 
 // FETCH GET FUNCTION
-const fetchData = async (event) => {
+const fetchGET = async (event) => {
 
   // GET REQUEST
   const res = await fetch(baseUrl, {
@@ -17,13 +18,19 @@ const fetchData = async (event) => {
     mode: "cors",
   });
   const txt = await res.text();
-  console.log(JSON.parse(txt));
+
+  return txt
+}
+
+const setData = async () => {
+
+  const data = await fetchGET()
 
   // STORE DATA TO LOCALSTORAGE
-  localStorage.setItem('typed_string', JSON.parse(txt).text_typed);
-  localStorage.setItem('character_count', JSON.parse(txt).character_count);
-  typedString = JSON.parse(txt).text_typed;
-  characterCount = JSON.parse(txt).character_count
+  localStorage.setItem('typed_string', JSON.parse(data).text_typed);
+  localStorage.setItem('character_count', JSON.parse(data).character_count);
+  typedString = JSON.parse(data).text_typed;
+  characterCount = JSON.parse(data).character_count
   dataLoaded = true
 }
 
@@ -63,13 +70,15 @@ const downHandler = (event) => {
   };
 
   // ADD CHARACTER OR COUNT TO VARIABLES
-  typedString = typedString+event.key;
-  characterCount += 1
-  characterCountThisSave += 1
+  typedString = localStorage.getItem('typed_string') + event.key;
+  typedStringThisSave = localStorage.getItem('typed_string_this_save') + event.key
+  characterCount = Number(localStorage.getItem('character_count')) + 1
+  characterCountThisSave = Number(localStorage.getItem('character_count_this_save')) + 1
 
   // LOG DYNAMICALLY AS USER TYPE
   localStorage.setItem('key', event.key);
-  localStorage.setItem('typed_string', typedString.slice(-110));
+  localStorage.setItem('typed_string', typedString);
+  localStorage.setItem('typed_string_this_save', typedStringThisSave);
   localStorage.setItem('character_count', characterCount);
   localStorage.setItem('character_count_this_save', characterCountThisSave);
 
@@ -77,18 +86,25 @@ const downHandler = (event) => {
   console.log(event.key);
 }
 
-const savePeriod = () => {
+const savePeriod = async () => {
 
-  // LOG CURRENT SAVE COUNTER AND RESET
-  console.log(characterCountThisSave)
-  characterCountThisSave = 0
-  localStorage.setItem('character_count_this_save', characterCountThisSave);
+  const currentTimestamp = Date.now()
+  const getData = await fetchGET()
 
-  // GRAB DATA AND FETCH PUT REQUEST
-  const textTypedBody = localStorage.getItem('typed_string');
-  const characterCountBody = localStorage.getItem('character_count');
+  // GRAB MOST RECET DATA AND FETCH PUT REQUEST
+  const textTypedBody = JSON.parse(getData).text_typed + localStorage.getItem('typed_string_this_save');
+  const characterCountBody = JSON.parse(getData).character_count + Number(localStorage.getItem('character_count_this_save'));
+  localStorage.setItem('typed_string', textTypedBody);
   fetchPUT(textTypedBody, characterCountBody);
   console.log('Game Saved');
+
+  // CONSOLE.LOG CURRENT SAVE COUNTER AND RESET
+  console.log(typedStringThisSave)
+  console.log(characterCountThisSave)
+  typedStringThisSave = ''
+  characterCountThisSave = 0
+  localStorage.setItem('typed_string_this_save', typedStringThisSave);
+  localStorage.setItem('character_count_this_save', characterCountThisSave);
 
   // RESET SAVE TIMER
   setTimeout(() => {savePeriod()}, timerLength);
@@ -99,5 +115,5 @@ const savePeriod = () => {
 window.addEventListener("keydown", downHandler);
 
 // EXECUTE INITIAL FUNCTIONALITY
-fetchData();
+setData();
 setTimeout(savePeriod, timerLength);
