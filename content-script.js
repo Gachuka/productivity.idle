@@ -8,6 +8,7 @@ let typedStringThisSave = ''
 let characterCount = 0
 let characterCountThisSave = 0
 let dataLoaded = false
+let addPerInput = 1
 
 // FETCH GET FUNCTION
 const fetchGET = async (event) => {
@@ -22,6 +23,7 @@ const fetchGET = async (event) => {
   return txt
 }
 
+// SET DATA FROM SAVE FILE
 const setData = async () => {
 
   console.log("Data Loaded")
@@ -35,6 +37,8 @@ const setData = async () => {
   typedString = JSON.parse(data).text_typed;
   characterCount = JSON.parse(data).character_count
   dataLoaded = true
+  addPerInput = JSON.parse(data).add_per_input
+  console.log(JSON.parse(data).add_per_input)
 }
 
 // FETCH PUT FUNCTION
@@ -75,8 +79,8 @@ const downHandler = (event) => {
   // ADD CHARACTER OR COUNT TO VARIABLES
   typedString = localStorage.getItem('typed_string') + event.key;
   typedStringThisSave = localStorage.getItem('typed_string_this_save') + event.key
-  characterCount = Number(localStorage.getItem('character_count')) + 1
-  characterCountThisSave = Number(localStorage.getItem('character_count_this_save')) + 1
+  characterCount = Number(localStorage.getItem('character_count')) + addPerInput
+  characterCountThisSave = Number(localStorage.getItem('character_count_this_save')) + addPerInput
 
   // LOG DYNAMICALLY AS USER TYPE
   localStorage.setItem('key', event.key);
@@ -89,6 +93,7 @@ const downHandler = (event) => {
   console.log(event.key);
 }
 
+// SAVE ON INTERVAL
 const savePeriod = async () => {
 
   const currentTimestamp = Date.now()
