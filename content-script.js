@@ -1,7 +1,7 @@
 console.log('Content Script Running')
 const baseUrl = "http://localhost:7878"
 const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
-const timerLength = 30000
+const timerLength = 10000
 
 let typedString = ''
 let typedStringThisSave = ''
@@ -24,11 +24,14 @@ const fetchGET = async (event) => {
 
 const setData = async () => {
 
+  console.log("Data Loaded")
   const data = await fetchGET()
 
   // STORE DATA TO LOCALSTORAGE
   localStorage.setItem('typed_string', JSON.parse(data).text_typed);
+  localStorage.setItem('typed_string_this_save', '');
   localStorage.setItem('character_count', JSON.parse(data).character_count);
+  localStorage.setItem('character_count_this_save', 0);
   typedString = JSON.parse(data).text_typed;
   characterCount = JSON.parse(data).character_count
   dataLoaded = true
@@ -104,6 +107,7 @@ const savePeriod = async () => {
   typedStringThisSave = ''
   characterCountThisSave = 0
   localStorage.setItem('typed_string_this_save', typedStringThisSave);
+  localStorage.setItem('character_count', JSON.parse(getData).character_count);
   localStorage.setItem('character_count_this_save', characterCountThisSave);
 
   // RESET SAVE TIMER
@@ -113,6 +117,7 @@ const savePeriod = async () => {
 // ON MOUNT
 // ADD EVENTLISTENER FOR KEY PRESS
 window.addEventListener("keydown", downHandler);
+window.onfocus = setData
 
 // EXECUTE INITIAL FUNCTIONALITY
 setData();
