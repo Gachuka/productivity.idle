@@ -50,8 +50,6 @@ const fetchPUT = async (typedString, characterCount) => {
     character_count: Number(characterCount)
   });
 
-  console.log(putBody)
-
   // PUT REQUEST
   const res = await fetch(baseUrl, {        
     method: "PUT",        
@@ -104,9 +102,9 @@ const savePeriod = async () => {
   // GRAB MOST RECET DATA AND FETCH PUT REQUEST
   const textTypedBody = JSON.parse(getData).text_typed + localStorage.getItem('typed_string_this_save');
   const characterCountBody = JSON.parse(getData).character_count + Number(localStorage.getItem('character_count_this_save'));
-  console.log(characterCountBody)
+  console.log(textTypedBody)
   localStorage.setItem('typed_string', textTypedBody);
-  fetchPUT(textTypedBody, characterCountBody);
+  await fetchPUT(textTypedBody, characterCountBody);
   console.log('Game Saved');
 
   // CONSOLE.LOG CURRENT SAVE COUNTER AND RESET
@@ -118,8 +116,6 @@ const savePeriod = async () => {
   localStorage.setItem('character_count', JSON.parse(getData).character_count);
   localStorage.setItem('character_count_this_save', characterCountThisSave);
 
-  // RESET SAVE TIMER
-  setTimeout(() => {savePeriod()}, timerLength);
 }
 
 // ON MOUNT
@@ -129,4 +125,4 @@ window.onfocus = setData
 
 // EXECUTE INITIAL FUNCTIONALITY
 setData();
-setTimeout(savePeriod, timerLength);
+setInterval(savePeriod, timerLength);
