@@ -50,6 +50,8 @@ const fetchPUT = async (typedString, characterCount) => {
     character_count: Number(characterCount)
   });
 
+  console.log(putBody)
+
   // PUT REQUEST
   const res = await fetch(baseUrl, {        
     method: "PUT",        
@@ -102,6 +104,7 @@ const savePeriod = async () => {
   // GRAB MOST RECET DATA AND FETCH PUT REQUEST
   const textTypedBody = JSON.parse(getData).text_typed + localStorage.getItem('typed_string_this_save');
   const characterCountBody = JSON.parse(getData).character_count + Number(localStorage.getItem('character_count_this_save'));
+  console.log(characterCountBody)
   localStorage.setItem('typed_string', textTypedBody);
   fetchPUT(textTypedBody, characterCountBody);
   console.log('Game Saved');
