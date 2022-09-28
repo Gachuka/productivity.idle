@@ -65,7 +65,13 @@ Optional
  6. The extension should mount and work upon opening a new tab after installation.
 
 # API
-**Productivity.Idle** uses [Productivity.Idle-api](https://github.com/Gachuka/productivity.idle-api) mentioned above that stores the progress data.
+
+**Productivity.Idle** uses a remote API that is created with [Productivity.Idle-api](https://github.com/Gachuka/productivity.idle-api) mentioned above to store the progress data.
+
+The extensions saves data to the remote database by default.
+
+If you want to use a local database, you will need to make changes with [Productivity.Idle-popup](https://github.com/Gachuka/productivity.idle-popup) and [Productivity.Idle-content-script](https://github.com/Gachuka/productivity.idle-content-script).
+Please read the ***Using Local/Remote Database***section in the installation guide in their respective repositories for instructions.
 
 # Lessons Learned
 Building a chrome extension really showed me how doing proper research and properly reading and understanding my findings saves a lot of time.
@@ -79,6 +85,7 @@ Reading and understanding what is written is very important.
 Another thing is that when things get too confusing, it is ok to completely rewrite the code. Since the brainstorming process has already been done, I can focus on the logics and write cleaner code.
 
 # Next Steps
+
 For the chrome extension: 
 
 - Adding a prestige system to progress even further at a faster pace.
