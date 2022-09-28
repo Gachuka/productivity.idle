@@ -68,9 +68,7 @@ Optional
 
 **Productivity.Idle** uses a remote API that is created with [Productivity.Idle-api](https://github.com/Gachuka/productivity.idle-api) mentioned above to store the progress data.
 
-The extensions saves data to the remote database by default.
-
-If you want to use a local database, you will need to make changes with [Productivity.Idle-popup](https://github.com/Gachuka/productivity.idle-popup) and [Productivity.Idle-content-script](https://github.com/Gachuka/productivity.idle-content-script).
+You can choose to use a local database or the preset remote database, you can make the changes needed with [Productivity.Idle-popup](https://github.com/Gachuka/productivity.idle-popup) and [Productivity.Idle-content-script](https://github.com/Gachuka/productivity.idle-content-script).
 Please read the ***Using Local/Remote Database***section in the installation guide in their respective repositories for instructions.
 
 # Lessons Learned
