@@ -37,7 +37,6 @@ You can click on the chrome extension icon of **Productivity.Idle** to view an U
 
 # Project Components & Installation
 ## Project components
-(Maybe a section that talks about running the extension with remote API)
 
 This project is comprised of four components. 
 
